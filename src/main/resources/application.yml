@@ -1,0 +1,118 @@
+spring:
+  config:
+    import: "file:./env.properties"
+
+  application:
+    name: healthee-backend
+
+  mongodb:
+    uri: ${MONGODB_URI}
+
+  data:
+    mongodb:
+      auto-index-creation: false
+
+  task:
+    scheduling:
+      pool:
+        size: 4
+
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 6MB
+
+  mail:
+    host: ${BREVO_SMTP_HOST:smtp-relay.brevo.com}
+    port: ${BREVO_SMTP_PORT:587}
+    username: ${BREVO_SMTP_USERNAME}
+    password: ${BREVO_SMTP_KEY}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
+      mail.smtp.connectiontimeout: 5000
+      mail.smtp.timeout: 10000
+      mail.smtp.writetimeout: 10000
+
+server:
+  port: ${PORT:8080}
+  forward-headers-strategy: none
+  error:
+    include-message: never
+    include-stacktrace: never
+
+management:
+  health:
+    mail:
+      enabled: ${MAIL_ENABLED:false}
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+
+springdoc:
+  packages-to-scan: com.healthee
+  paths-to-match: /api/v1/**
+
+  api-docs:
+    path: /v3/api-docs
+    enabled: ${API_DOCS_ENABLED:false}
+
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: ${API_DOCS_ENABLED:true}
+    try-it-out-enabled: true
+    supported-submit-methods:
+      - get
+      - post
+      - put
+      - patch
+      - delete
+      - options
+      - head
+    operations-sorter: method
+    tags-sorter: alpha
+    filter: true
+    display-request-duration: true
+    persist-authorization: false
+    disable-swagger-default-url: true
+
+app:
+  jwt-secret: ${JWT_SECRET}
+  secret-key: ${SECRET_KEY}
+  encryption-secret-key: ${ENCRYPTION_SECRET_KEY:F8UFUHFUUFF}
+  api-key: ${API_KEY}
+
+  public-url: ${PUBLIC_APP_URL:http://localhost:3000}
+  cors-origins: ${CORS_ORIGINS:http://localhost:3000}
+
+  bootstrap-email: ${BOOTSTRAP_ADMIN_EMAIL}
+  bootstrap-password: ${BOOTSTRAP_ADMIN_PASSWORD}
+  bootstrap-name: ${BOOTSTRAP_ADMIN_NAME:Healthee Admin}
+
+  seed-catalogue: ${SEED_CATALOGUE:true}
+
+  mail-enabled: ${MAIL_ENABLED:false}
+  mail-from: ${MAIL_FROM}
+  admin-notify-email: ${ADMIN_NOTIFY_EMAIL}
+
+  paystack-secret: ${PAYSTACK_SECRET_KEY:}
+  paystack-url: ${PAYSTACK_URL:https://api.paystack.co}
+
+  flutterwave-secret: ${FLUTTERWAVE_SECRET_KEY:}
+  flutterwave-webhook-hash: ${FLUTTERWAVE_WEBHOOK_HASH:}
+  flutterwave-url: ${FLUTTERWAVE_URL:https://api.flutterwave.com/v3}
+
+  cloudinary-cloud: ${CLOUDINARY_CLOUD_NAME}
+  cloudinary-key: ${CLOUDINARY_API_KEY}
+  cloudinary-secret: ${CLOUDINARY_API_SECRET}
+
+application:
+  cloudinary:
+    cloudName: ${app.cloudinary-cloud}
+    apiKey: ${app.cloudinary-key}
+    apiSecret: ${app.cloudinary-secret}
